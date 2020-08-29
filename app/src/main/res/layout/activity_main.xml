@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <TextView
+        android:id="@+id/ngm"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:layout_marginStart="40dp"
+        android:fontFamily="@font/lanenar"
+        android:textSize="84sp"
+        android:textColor="#000000"
+        android:textStyle="bold"
+        android:text="@string/ngm"
+        android:shadowColor="@color/colorShadow"
+        android:shadowRadius="3"
+        android:shadowDx="2.4"
+        android:shadowDy="2.0"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintVertical_bias="0"
+        app:layout_constraintHorizontal_bias="0">
+
+    </TextView>
+
+    <TextView
+        android:id="@+id/downloader"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="35dp"
+        android:fontFamily="@font/lanenar"
+        android:textSize="30sp"
+        android:textStyle="bold"
+        android:textColor="#000000"
+        android:text="@string/downloader"
+        app:layout_constraintTop_toBottomOf="@id/ngm"
+        app:layout_constraintBottom_toBottomOf="@id/ngm"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintVertical_bias="0"
+        app:layout_constraintHorizontal_bias="0.7">
+
+    </TextView>
+
+    <ImageView
+        android:layout_width="44dp"
+        android:layout_height="44dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginBottom="5dp"
+        android:src="@drawable/app_icon"
+        android:contentDescription="@string/img_desc"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/downloader"
+        app:layout_constraintLeft_toRightOf="@id/ngm"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintVertical_bias="1"
+        app:layout_constraintHorizontal_bias="0">
+
+    </ImageView>
+
+    <EditText
+        android:id="@+id/id_here"
+        android:layout_width="320dp"
+        android:layout_height="50dp"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
+        android:paddingStart="10dp"
+        android:paddingEnd="10dp"
+        android:background="@drawable/weak_rounded_background"
+        android:hint="@string/search_hint"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:autofillHints=""
+        android:inputType="">
+
+    </EditText>
+
+    <Button
+        android:id="@+id/search"
+        android:layout_width="320dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="20dp"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
+        android:paddingStart="10dp"
+        android:paddingEnd="10dp"
+        android:background="@drawable/weak_rounded_background"
+        android:text="@string/search_text"
+        app:layout_constraintTop_toBottomOf="@id/id_here"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintVertical_bias="0">
+
+    </Button>
+
+    <ImageButton
+        android:id="@+id/settings"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginEnd="10dp"
+        android:paddingTop="6dp"
+        android:paddingBottom="6dp"
+        android:paddingStart="6dp"
+        android:paddingEnd="6dp"
+        android:src="@drawable/setting_gear"
+        android:scaleType="centerInside"
+        android:background="@drawable/weak_rounded_background"
+        android:contentDescription="@string/img_desc"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/banner"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintVertical_bias="1"
+        app:layout_constraintHorizontal_bias="1">
+
+    </ImageButton>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/banner"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
+        android:paddingStart="10dp"
+        android:paddingEnd="10dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintVertical_bias="1">
+
+        <ImageView
+            android:id="@+id/sep_is_god"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/weak_rounded_background"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:paddingStart="10dp"
+            android:paddingEnd="10dp"
+            android:src="@drawable/sepisgod"
+            android:adjustViewBounds="true"
+            android:contentDescription="@string/img_desc"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent">
+
+        </ImageView>
+
+        <ImageView
+            android:id="@+id/github"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:src="@drawable/github"
+            android:scaleType="centerCrop"
+            android:contentDescription="@string/img_desc"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintVertical_bias="0.76"
+            app:layout_constraintHorizontal_bias="0.925">
+
+        </ImageView>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

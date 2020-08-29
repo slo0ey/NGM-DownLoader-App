@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">NGM DownLoader</string>
+    <string name="ngm">NGM</string>
+    <string name="downloader">Downloader</string>
+    <string name="img_desc">Image!</string>
+    <string name="search_hint">SongID here</string>
+    <string name="search_text">검색검색검색검색검색검색</string>
+    <string name="idstatus1">아이디부터 넣고 검색해 미친년아</string>
+    <string name="idstatus2">아니 씨발 숫자넣으라고 쌍년아</string>
+    <string name="downloadfailed">다운로드 실패: %s</string>
+    <string name="downloadsuccess">다운로드 성공!\n-----------------------------\nTitle: %s\nAuthor: %s\nID: %s\n-----------------------------\n파일경로: %s</string>
+    <string name="more">More</string>
+</resources>
