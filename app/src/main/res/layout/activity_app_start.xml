@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FFFFFF"
+    tools:context=".AppStartActivity">
+
+    <TextView
+        android:id="@+id/ngm"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:layout_marginStart="40dp"
+        android:fontFamily="@font/lanenar"
+        android:textSize="84sp"
+        android:textColor="#000000"
+        android:textStyle="bold"
+        android:text="@string/ngm"
+        android:shadowColor="@color/colorShadow"
+        android:shadowRadius="3"
+        android:shadowDx="2.4"
+        android:shadowDy="2.0"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintVertical_bias="0"
+        app:layout_constraintHorizontal_bias="0">
+
+    </TextView>
+
+    <TextView
+        android:id="@+id/downloader"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="35dp"
+        android:fontFamily="@font/lanenar"
+        android:textSize="30sp"
+        android:textStyle="bold"
+        android:textColor="#000000"
+        android:text="@string/downloader"
+        app:layout_constraintTop_toBottomOf="@id/ngm"
+        app:layout_constraintBottom_toBottomOf="@id/ngm"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintVertical_bias="0"
+        app:layout_constraintHorizontal_bias="0.7">
+
+    </TextView>
+
+    <ImageView
+        android:layout_width="44dp"
+        android:layout_height="44dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginBottom="5dp"
+        android:src="@drawable/app_icon"
+        android:contentDescription="@string/img_desc"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/downloader"
+        app:layout_constraintLeft_toRightOf="@id/ngm"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintVertical_bias="1"
+        app:layout_constraintHorizontal_bias="0">
+
+    </ImageView>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingStart="30dp"
+        android:paddingEnd="30dp"
+        android:gravity="center"
+        android:fontFamily="@font/lanenar"
+        android:textColor="#000000"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:text="@string/prepare"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintVertical_bias="0.4">
+
+    </TextView>
+
+    <ImageView
+        android:layout_width="240dp"
+        android:layout_height="240dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginBottom="5dp"
+        android:src="@drawable/dude"
+        android:contentDescription="@string/img_desc"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintVertical_bias="1"
+        app:layout_constraintHorizontal_bias="1">
+
+    </ImageView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
