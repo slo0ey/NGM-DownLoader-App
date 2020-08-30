@@ -1,6 +1,6 @@
 # NGM-DownLoader-App
 
-NGM Downloader App for Android
+NGM Downloader App for Android ~~(느금마 다운로더 아니다 ㅅㅂ...)~~
 
 # Description
 
