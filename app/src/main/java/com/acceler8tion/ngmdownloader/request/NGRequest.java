@@ -26,12 +26,33 @@ public class NGRequest {
     }
 
     public static NGRequest build(int songId) {
-        String[] info = parseInfo(songId);
-        if(info == null) return null;
-        if (songId <= 469776) {
-            return new NGRequest(songId, OLD_URL + songId, info[1]);
-        } else {
-            return new NGRequest(songId, info[0], info[1]);
+        String songName;
+        String songUrl;
+        try {
+            Document con = Jsoup.connect(INFO_URL + songId)
+                    .ignoreContentType(true)
+                    .maxBodySize(0)
+                    .get();
+            songName = con.title();
+            String title = songName;
+            title = title.replace(" ", "-");
+            title = title.replace("&", "amp");
+            title = title.replace("\"", "quot");
+            title = title.replace("<", "lt");
+            title = title.replace(">", "gt");
+            if (title.length() > 27) {
+                title = title.substring(0, 27);
+            }
+            title = title.replace("[^a-zA-z0-9-]", "");
+
+            if(songId <= 469776) {
+                return new NGRequest(songId, OLD_URL + songId, songName);
+            } else {
+                songUrl = String.format(CURRENT_URL + "%s000/%s_%s.mp3", ("" + songId).substring(0, 3), songId, title);
+                return new NGRequest(songId, songUrl, songName);
+            }
+        } catch (IOException e) {
+            return null;
         }
     }
 
@@ -42,6 +63,7 @@ public class NGRequest {
                     .get();
             String title = con.title();
             final String name = title;
+            if(songId <= 469776) return new String[]{"", name};
             title = title.replace(" ", "-");
             title = title.replace("&", "amp");
             title = title.replace("\"", "quot");
@@ -57,11 +79,12 @@ public class NGRequest {
         }
     }
 
-    public String download() throws DownloadFailedException {
+    public byte[] download() throws DownloadFailedException {
         try {
             return Jsoup.connect(downloadUrl)
+                    .ignoreContentType(true)
                     .method(Connection.Method.GET)
-                    .execute().body();
+                    .execute().bodyAsBytes();
         } catch (Exception e) {
             e.printStackTrace();
             throw new DownloadFailedException("Failed to download: " + e.getMessage());
