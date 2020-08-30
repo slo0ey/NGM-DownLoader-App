@@ -13,6 +13,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.preference.PreferenceManager;
 import android.speech.tts.TextToSpeech;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -22,7 +23,8 @@ import android.widget.Toast;
 
 import com.acceler8tion.ngmdownloader.request.NGRequest;
 
-import java.io.FileWriter;
+import java.io.BufferedOutputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Locale;
 
@@ -63,6 +65,7 @@ public class MainActivity extends AppCompatActivity {
                 } else if(status == 2) {
                     tts.speak(getString(R.string.id_status_2), QUEUE_FLUSH, null, null);
                 } else {
+                    Toast.makeText(MainActivity.this, "다운로드를 시작합니다... 잠시만 기다려주세요\n\nSongId: " + id, Toast.LENGTH_LONG).show();
                     download(Integer.parseInt(id)).start();
                 }
             }
@@ -109,16 +112,17 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void run() {
-
                 try {
                     ngr = NGRequest.build(songId);
-                    String songData = ngr.download();
+                    byte[] songData = ngr.download();
+                    Log.d("SongSize: ", songData.length+"");
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
                         //TODO: handle this
                     } else {
                         SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context);
                         String subPath = pref.getString("sub", "/Music");
-                        path = Environment.getExternalStorageDirectory()+subPath+"/"+songId+".mp3";
+                        path = Environment.getExternalStorageDirectory().getAbsolutePath()+subPath+"/"+ngr.getName()+".mp3";
+                        Log.d("FilePath: ", path);
                         save(path, songData);
                         status = 1;
                     }
@@ -141,9 +145,9 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    protected void save(String path, String data) throws IOException {
-        FileWriter fw = new FileWriter(path);
-        fw.write(data);
-        fw.flush();
+    protected void save(String path, byte[] data) throws IOException {
+        BufferedOutputStream buf = new BufferedOutputStream(new FileOutputStream(path));
+        buf.write(data);
+        buf.close();
     }
 }
