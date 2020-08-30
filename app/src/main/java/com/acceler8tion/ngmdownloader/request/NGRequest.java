@@ -10,8 +10,6 @@ import org.jsoup.nodes.Document;
 import java.io.IOException;
 import java.util.Objects;
 
-import io.netty.util.internal.SuppressJava6Requirement;
-
 public class NGRequest {
 
     private static final String OLD_URL = "https://www.newgrounds.com/audio/download/";
@@ -59,11 +57,11 @@ public class NGRequest {
         }
     }
 
-    public byte[] download() throws DownloadFailedException {
+    public String download() throws DownloadFailedException {
         try {
             return Jsoup.connect(downloadUrl)
                     .method(Connection.Method.GET)
-                    .execute().bodyAsBytes();
+                    .execute().body();
         } catch (Exception e) {
             e.printStackTrace();
             throw new DownloadFailedException("Failed to download: " + e.getMessage());

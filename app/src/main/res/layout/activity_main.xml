@@ -165,6 +165,8 @@
             android:src="@drawable/github"
             android:scaleType="centerCrop"
             android:contentDescription="@string/img_desc"
+            android:clickable="true"
+            android:focusable="true"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
