@@ -20,7 +20,7 @@ Issue, Pull Request is always welcome :)
 
 # Issues
 
-Here is some issues
+Here are some issues
 
 |Type|Description|Device Option|Resolved|
 |:---:|---|:---:|:---:|
