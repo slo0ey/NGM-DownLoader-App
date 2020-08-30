@@ -1,10 +1,10 @@
 # NGM-DownLoader-App
 
+[![Last Commit](https://img.shields.io/github/last-commit/acceler8tion/NGM-Downloader-App/master?color=0097FF&logo=github)]()
 [![Repo Size](https://img.shields.io/github/repo-size/acceler8tion/NGM-Downloader-App?color=green&logo=github)]()
 [![Most Language](https://img.shields.io/github/languages/top/acceler8tion/NGM-Downloader-App?color=red&logo=java)]()
 [![Downloads](https://img.shields.io/github/downloads/acceler8tion/NGM-Downloader-App/total?color=00FF8F&logo=android)](https://github.com/acceler8tion/NGM-DownLoader-App/releases/)
 [![License](https://img.shields.io/github/license/acceler8tion/NGM-Downloader-App?color=898989)]()
-[![Last Commit](https://img.shields.io/github/last-commit/acceler8tion/NGM-Downloader-App/master?color=0097FF&logo=github)]()
 
 NGM Downloader App for Android ~~(느금마 다운로더 아니다 ㅅㅂ...)~~
 
