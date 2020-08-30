@@ -28,16 +28,21 @@ import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity {
 
-    private final EditText input = findViewById(R.id.id_here);
-    private final Button search = findViewById(R.id.search);
-    private final ImageButton settings = findViewById(R.id.settings);
-    private final ImageView github = findViewById(R.id.github);
+    private EditText input;
+    private Button search;
+    private ImageButton settings;
+    private ImageView github;
     private TextToSpeech tts;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        input = findViewById(R.id.id_here);
+        search = findViewById(R.id.search);
+        settings = findViewById(R.id.settings);
+        github = findViewById(R.id.github);
 
         tts = new TextToSpeech(this, new TextToSpeech.OnInitListener() {
             @Override
