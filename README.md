@@ -18,6 +18,10 @@ Issue, Pull Request is always welcome :)
 - Minimum SDK is **21**(Android **Lolipop**)
 - Permission **WRITE_EXTERNAL_STORAGE** is absolutely necessary.
 
+# Libraries
+
+- Jsoup **1.11.3** (link [here](https://jsoup.org/))
+
 # Issues
 
 Here are some issues
