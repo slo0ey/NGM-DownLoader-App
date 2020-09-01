@@ -6,7 +6,7 @@
 [![Downloads](https://img.shields.io/github/downloads/acceler8tion/NGM-Downloader-App/total?color=00FF8F&logo=android)](https://github.com/acceler8tion/NGM-DownLoader-App/releases/)
 [![License](https://img.shields.io/github/license/acceler8tion/NGM-Downloader-App?color=898989)]()
 
-NGM Downloader App for Android ~~(느금마 다운로더 아니다 ㅅㅂ...)~~
+NGM Downloader App for Android ~~(제발 이상하게 읽지좀 마라...)~~
 
 # Description
 
