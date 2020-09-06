@@ -34,7 +34,7 @@ Here are some issues
 
 |Type|Description|Device Option|Resolved|
 |:---:|---|:---:|:---:|
-|Not Implemented yet|Android 10 and above has a file storage issue, so i didn't implement downloading yet. If you are a corresponding version user, please wait for the next update.|Android 10 ~|:x:|
+|Not Implemented yet|Android 10 and above has a file storage issue, so i didn't implement downloading yet. If you use Android 10+ device, please wait for the next update.|Android 10 ~|:x:|
 |Unstable|Sometimes activity movements may not be smooth.|All|:x:|
 |Error|I didn't handle about invalid song id|All|:x:|
 |Not Implemented yet|Do not support English completely|All|:x:|
