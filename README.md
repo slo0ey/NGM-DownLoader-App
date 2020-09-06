@@ -10,7 +10,7 @@ NGM Downloader App for Android ~~(제발 이상하게 읽지좀 마라...)~~
 
 # Description
 
-*Downloading NGM* is based on @GyuminKim29 's **[NGM-Downloader](https://github.com/GyuminKim29/NGM-Downloader)**
+*Downloading Audio* is based on @GyuminKim29 's **[NGM-Downloader](https://github.com/GyuminKim29/NGM-Downloader)**
 
 Issue, Pull Request is always welcome :)
 
