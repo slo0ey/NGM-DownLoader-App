@@ -100,7 +100,7 @@ public class MainActivity extends AppCompatActivity {
         return 0;
     }
 
-    @SuppressWarnings("ConstantConditions")
+    @SuppressWarnings({"ConstantConditions"})
     protected Thread download(final int songId) {
         return new Thread(new Runnable() {
 
@@ -116,16 +116,12 @@ public class MainActivity extends AppCompatActivity {
                     ngr = NGRequest.build(songId);
                     byte[] songData = ngr.download();
                     Log.d("SongSize: ", songData.length+"");
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-                        //TODO: handle this
-                    } else {
-                        SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context);
-                        String subPath = pref.getString("sub", "/Music");
-                        path = Environment.getExternalStorageDirectory().getAbsolutePath()+subPath+"/"+ngr.getName()+".mp3";
-                        Log.d("FilePath: ", path);
-                        save(path, songData);
-                        status = 1;
-                    }
+                    SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context);
+                    String subPath = pref.getString("sub", "/Music");
+                    path = Environment.getExternalStorageDirectory().getAbsolutePath()+subPath+"/"+ngr.getName()+".mp3";
+                    Log.d("FilePath: ", path);
+                    save(path, songData);
+                    status = 1;
                 } catch (IOException e) {
                     e.printStackTrace();
                     stack = e.getStackTrace()[0];
