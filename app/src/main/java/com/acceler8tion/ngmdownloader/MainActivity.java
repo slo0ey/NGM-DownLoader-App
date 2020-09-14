@@ -4,28 +4,31 @@ import static android.speech.tts.TextToSpeech.ERROR;
 import static android.speech.tts.TextToSpeech.QUEUE_FLUSH;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.preference.PreferenceManager;
 
+import android.app.DownloadManager;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.database.Cursor;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
-import android.preference.PreferenceManager;
 import android.speech.tts.TextToSpeech;
-import android.util.Log;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.acceler8tion.ngmdownloader.request.NGMConnectFailedException;
+import com.acceler8tion.ngmdownloader.request.NGMNoSuchMusicException;
 import com.acceler8tion.ngmdownloader.request.NGRequest;
 
-import java.io.BufferedOutputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
+import java.io.File;
 import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity {
@@ -35,6 +38,13 @@ public class MainActivity extends AppCompatActivity {
     private ImageButton settings;
     private ImageView github;
     private TextToSpeech tts;
+
+    private DownloadManager downloadManager;
+    private String subPath;
+    private int latestId;
+    private String latestSongName;
+    private String latestPath;
+    private long latestDownloadId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,51 +56,87 @@ public class MainActivity extends AppCompatActivity {
         settings = findViewById(R.id.settings);
         github = findViewById(R.id.github);
 
-        tts = new TextToSpeech(this, new TextToSpeech.OnInitListener() {
-            @Override
-            public void onInit(int i) {
-                if(i != ERROR) {
-                    tts.setLanguage(Locale.KOREAN);
-                }
+        SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(this);
+        subPath = pref.getString("sp", "/Music");
+        latestId = pref.getInt("lid", -1);
+        latestSongName = pref.getString("lname", "");
+        latestPath = pref.getString("lpath", "");
+        latestDownloadId = pref.getLong("ldownloadId", -1L);
+
+        downloadManager = (DownloadManager) getSystemService(Context.DOWNLOAD_SERVICE);
+        IntentFilter inf = new IntentFilter();
+        inf.addAction(DownloadManager.ACTION_DOWNLOAD_COMPLETE);
+        inf.addAction(DownloadManager.ACTION_NOTIFICATION_CLICKED);
+        registerReceiver(onDownloadComplete, inf);
+
+        tts = new TextToSpeech(this, i -> {
+            if(i != ERROR) {
+                tts.setLanguage(Locale.KOREAN);
             }
         });
 
-        search.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                final String id = input.getText().toString();
-                int status = songIdStatus(id);
-                if(status == 1) {
-                    tts.speak(getString(R.string.id_status_1), QUEUE_FLUSH, null, null);
-                } else if(status == 2) {
-                    tts.speak(getString(R.string.id_status_2), QUEUE_FLUSH, null, null);
-                } else {
-                    Toast.makeText(MainActivity.this, "다운로드를 시작합니다... 잠시만 기다려주세요\n\nSongId: " + id, Toast.LENGTH_LONG).show();
-                    download(Integer.parseInt(id)).start();
-                }
+        search.setOnClickListener(view -> {
+            final String id = input.getText().toString();
+            int status = checkId(id);
+            if(status == 1) {
+                tts.speak(getString(R.string.id_status_1), QUEUE_FLUSH, null, null);
+            } else if(status == 2) {
+                tts.speak(getString(R.string.id_status_2), QUEUE_FLUSH, null, null);
+            } else {
+                if(isRunning(latestId)) tts.speak(getString(R.string.already_started), QUEUE_FLUSH, null, null);
+                download(Integer.parseInt(id));
             }
         });
 
-        settings.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                tts.speak("아직 안만듬", QUEUE_FLUSH, null, null);
-            }
-        });
+        settings.setOnClickListener(view -> tts.speak("아직 안만듬", QUEUE_FLUSH, null, null));
 
-        github.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent();
-                intent.setAction(Intent.ACTION_VIEW);
-                intent.addCategory(Intent.CATEGORY_BROWSABLE);
-                intent.setData(Uri.parse("https://github.com/GyuminKim29/"));
-                startActivity(intent);
-            }
+        github.setOnClickListener(view -> {
+            Intent intent = new Intent();
+            intent.setAction(Intent.ACTION_VIEW);
+            intent.addCategory(Intent.CATEGORY_BROWSABLE);
+            intent.setData(Uri.parse("https://github.com/GyuminKim29/"));
+            startActivity(intent);
         });
     }
 
-    protected int songIdStatus(String id) {
+    private BroadcastReceiver onDownloadComplete = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            long id = intent.getLongExtra(DownloadManager.EXTRA_DOWNLOAD_ID, -1L);
+            if(DownloadManager.ACTION_DOWNLOAD_COMPLETE.equals(intent.getAction())) {
+                if(latestId == Integer.parseInt(""+id)) {
+                    DownloadManager.Query q = new DownloadManager.Query();
+                    q.setFilterById(id);
+                    Cursor c = downloadManager.query(q);
+                    if(!c.moveToFirst()){
+                        return;
+                    }
+
+                    int columnIndex = c.getColumnIndex(DownloadManager.COLUMN_STATUS);
+                    int status = c.getInt(columnIndex);
+                    if(status == DownloadManager.STATUS_SUCCESSFUL) {
+                        Toast.makeText(context, String.format("다운로드에 성공했습니다.\nTitle: %s\nId: %s\nFilePath: %s", latestSongName, latestId, latestPath), Toast.LENGTH_LONG).show();
+                    } else if(status == DownloadManager.STATUS_FAILED) {
+                        Toast.makeText(context, "다운로드에 실패했습니다...", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            } else if(DownloadManager.ACTION_NOTIFICATION_CLICKED.equals(intent.getAction())) {
+                Toast.makeText(context, "다운로드 중 입니다.", Toast.LENGTH_SHORT).show();
+            }
+        }
+    };
+
+    private void registerLatestMusicInfo(NGRequest ngr, String path, long latestDownloadId) {
+        SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(this);
+        pref.edit()
+                .putInt("lid", ngr.getSongId())
+                .putString("lname", ngr.getName())
+                .putString("lpath", path)
+                .putLong("ldownloadId", latestDownloadId)
+                .apply();
+    }
+
+    private int checkId(String id) {
         if(id.isEmpty()) return 1;
         try {
             Integer.parseInt(id);
@@ -100,50 +146,50 @@ public class MainActivity extends AppCompatActivity {
         return 0;
     }
 
-    @SuppressWarnings({"ConstantConditions"})
-    protected Thread download(final int songId) {
-        return new Thread(new Runnable() {
+    private boolean isRunning(long downloadId) {
+        DownloadManager.Query q = new DownloadManager.Query();
+        q.setFilterById(downloadId);
+        Cursor c = downloadManager.query(q);
+        if(!c.moveToFirst()){
+            return false;
+        }
 
-            private AppCompatActivity context = MainActivity.this;
-            private int status;
-            private NGRequest ngr;
-            private String path;
-            private StackTraceElement stack;
+        int columnIndex = c.getColumnIndex(DownloadManager.COLUMN_STATUS);
+        int status = c.getInt(columnIndex);
 
-            @Override
-            public void run() {
-                try {
-                    ngr = NGRequest.build(songId);
-                    byte[] songData = ngr.download();
-                    Log.d("SongSize: ", songData.length+"");
-                    SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context);
-                    String subPath = pref.getString("sub", "/Music");
-                    path = Environment.getExternalStorageDirectory().getAbsolutePath()+subPath+"/"+ngr.getName()+".mp3";
-                    Log.d("FilePath: ", path);
-                    save(path, songData);
-                    status = 1;
-                } catch (IOException e) {
-                    e.printStackTrace();
-                    stack = e.getStackTrace()[0];
-                    status = -1;
-                }
-                context.runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        if(status == 1) {
-                            Toast.makeText(context, String.format(context.getString(R.string.download_success), ngr.getName(), ""+songId, path), Toast.LENGTH_LONG).show();
-                        } else {
-                            Toast.makeText(context, String.format(context.getString(R.string.download_failed), stack.toString()), Toast.LENGTH_LONG).show();
-                        }
-                    }
-                });
-            }
-        });
+        return !(status == DownloadManager.STATUS_FAILED || status == DownloadManager.STATUS_SUCCESSFUL);
     }
 
-    protected void save(String path, byte[] data) throws IOException {
-        BufferedOutputStream buf = new BufferedOutputStream(new FileOutputStream(path));
-        buf.write(data);
-        buf.close();
+    private void download(int songId) {
+        try {
+            NGRequest ngr = NGRequest.build(songId);
+            String url = ngr.getDownloadUrl();
+            File file;
+            if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                file = new File(getExternalFilesDir(null), ngr.getName() + ".mp3");
+            } else {
+                file = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/Music/" + ngr.getName() + ".mp3");
+            }
+            DownloadManager.Request request = new DownloadManager.Request(Uri.parse(url))
+                    .setTitle("Downloading Music")
+                    .setDescription("Downloading "+ngr.getName())
+                    .setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE)
+                    .setDestinationUri(Uri.fromFile(file))
+                    .setAllowedOverMetered(true)
+                    .setAllowedOverRoaming(true);
+            if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                request.setRequiresCharging(false);
+            }
+            Toast.makeText(this, "다운로드를 시작합니다.", Toast.LENGTH_SHORT).show();
+
+            long downloadId = downloadManager.enqueue(request);
+            registerLatestMusicInfo(ngr, file.getAbsolutePath(), downloadId);
+        } catch (NGMNoSuchMusicException e) {
+            e.printStackTrace();
+            tts.speak(getString(R.string.do_not_exist), QUEUE_FLUSH, null, null);
+        } catch (NGMConnectFailedException e) {
+            e.printStackTrace();
+            tts.speak(getString(R.string.check_internet), QUEUE_FLUSH, null, null);
+        }
     }
 }
