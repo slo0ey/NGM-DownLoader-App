@@ -25,6 +25,10 @@ android {
     packagingOptions {
         exclude 'META-INF/INDEX.LIST'
     }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
 }
 
 dependencies {
@@ -32,6 +36,7 @@ dependencies {
     implementation 'androidx.appcompat:appcompat:1.2.0'
     implementation "androidx.recyclerview:recyclerview:1.1.0"
     implementation 'androidx.constraintlayout:constraintlayout:2.0.0'
+    implementation 'androidx.preference:preference:1.1.1'
     implementation 'org.jsoup:jsoup:1.11.3'
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
