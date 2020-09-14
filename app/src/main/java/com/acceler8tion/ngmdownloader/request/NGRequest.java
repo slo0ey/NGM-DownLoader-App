@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import org.jsoup.Connection;
+import org.jsoup.HttpStatusException;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 
@@ -25,7 +26,7 @@ public class NGRequest {
         this.name = name;
     }
 
-    public static NGRequest build(int songId) {
+    public static NGRequest build(int songId) throws NGMNoSuchMusicException, NGMConnectFailedException {
         String songName;
         String songUrl;
         try {
@@ -52,8 +53,10 @@ public class NGRequest {
                 songUrl = String.format(CURRENT_URL + "%s000/%s_%s.mp3", ("" + songId).substring(0, 3), songId, title);
                 return new NGRequest(songId, songUrl, songName);
             }
+        } catch (HttpStatusException e) {
+            throw new NGMNoSuchMusicException();
         } catch (IOException e) {
-            return null;
+            throw new NGMConnectFailedException();
         }
     }
 
@@ -80,20 +83,16 @@ public class NGRequest {
         }
     }
 
-    public byte[] download() throws DownloadFailedException {
-        try {
-            return Jsoup.connect(downloadUrl)
-                    .ignoreContentType(true)
-                    .method(Connection.Method.GET)
-                    .execute().bodyAsBytes();
-        } catch (Exception e) {
-            e.printStackTrace();
-            throw new DownloadFailedException("Failed to download: " + e.getMessage());
-        }
+    public int getSongId() {
+        return songId;
     }
 
     public String getName() {
         return name;
+    }
+
+    public String getDownloadUrl() {
+        return downloadUrl;
     }
 
     @Override
