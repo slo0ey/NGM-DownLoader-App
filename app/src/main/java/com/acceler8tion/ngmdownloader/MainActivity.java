@@ -162,7 +162,9 @@ public class MainActivity extends AppCompatActivity {
 
     private void download(int songId) {
         try {
-            NGRequest ngr = NGRequest.build(songId);
+            NGRequest ngr = new NGRequest(songId);
+            ngr.build();
+
             String url = ngr.getDownloadUrl();
             File file;
             if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
