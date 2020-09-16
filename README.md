@@ -16,7 +16,7 @@ Issue, Pull Request is always welcome :)
 
 # Latest Version
 
-**[1.0](https://github.com/acceler8tion/NGM-DownLoader-App/releases/tag/1.0)** <- download here
+**[Pre - 1.2](https://github.com/acceler8tion/NGM-DownLoader-App/releases/tag/1.2-pre)** <- download here
 
 # Requires
 
@@ -34,9 +34,9 @@ Here are some issues
 
 |Type|Description|Device Option|Resolved|
 |:---:|---|:---:|:---:|
-|Not Implemented yet|Android 10 and above has a file storage issue, so i didn't implement downloading yet. If you use Android 10+ device, please wait for the next update.|Android 10 ~|:x:|
-|Unstable|Sometimes activity movements may not be smooth.|All|:x:|
-|Error|I didn't handle about invalid song id|All|:x:|
+|Not Implemented yet|Android 10 and above has a file storage issue, so i didn't implement downloading yet. If you use Android 10+ device, please wait for the next update.|Android 10 ~|:white_check_mark:|
+|Unstable|Sometimes activity movements may not be smooth.|All|:white_check_mark:|
+|Error|I didn't handle about invalid song id|All|:warning:|
 |Not Implemented yet|Do not support English completely|All|:x:|
 
 # Credits
