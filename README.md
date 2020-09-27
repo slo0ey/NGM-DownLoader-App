@@ -36,7 +36,7 @@ Here are some issues
 |:---:|---|:---:|:---:|
 |Not Implemented yet|Android 10 and above has a file storage issue, so i didn't implement downloading yet. If you use Android 10+ device, please wait for the next update.|Android 10 ~|:white_check_mark:|
 |Unstable|Sometimes activity movements may not be smooth.|All|:white_check_mark:|
-|Error|I didn't handle about invalid song id|All|:warning:|
+|Error|I didn't handle about invalid song id|All|:white_check_mark:|
 |Not Implemented yet|Do not support English completely|All|:x:|
 
 # Credits
